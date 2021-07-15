@@ -1,12 +1,11 @@
-import { Omit } from "lodash";
+import config from "config";
+import { get, Omit } from "lodash";
 import { FilterQuery, LeanDocument, UpdateQuery } from "mongoose";
 import Session, { SessionDocument } from "../model/session.model";
 import { UserDocument } from "../model/user.model";
-import { sign, decode } from "../utils/jwt.utils";
-import config from "config"
+import { decode, sign } from "../utils/jwt.utils";
 import { findUser } from "./user.service";
 
-import { get } from "lodash";
 
 export async function createSession(userId: string, userAgent: string) {
     const session = await Session.create({ user: userId, userAgent })

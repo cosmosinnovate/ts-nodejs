@@ -1,11 +1,15 @@
-import { Request, Response } from "express-serve-static-core"
-import { omit } from "lodash"
-import { createUser, validatePassword } from "../service/user.service"
-import log from "../logger"
-import { createAccessToken, createSession, findSessions, updateSession } from "../service/session.service"
-import { sign } from "../utils/jwt.utils"
 import config from "config"
-import { get } from "lodash";
+import { Request, Response } from "express-serve-static-core"
+import { get } from "lodash"
+import log from "../logger"
+import {
+    createAccessToken,
+    createSession,
+    findSessions,
+    updateSession
+} from "../service/session.service"
+import { validatePassword } from "../service/user.service"
+import { sign } from "../utils/jwt.utils"
 
 
 export async function createUserSessionHandler(req: Request, res: Response) {
@@ -14,7 +18,7 @@ export async function createUserSessionHandler(req: Request, res: Response) {
     if (!user) return res.status(400).send("Invalide username or password")
 
     // Create a session
-    const session = await createSession(user._id, req.get("user_agent") || "")
+    const session = await createSession(user._id, req.get("user-agent") || "")
     if (!session) return
 
     // create access token
@@ -22,7 +26,6 @@ export async function createUserSessionHandler(req: Request, res: Response) {
         user,
         session,
     });
-
     // Create a refresh token 
     const refreshToken = sign(session, {
         expiresIn: config.get("refreshTokenTtl"), // 1 year
@@ -32,14 +35,15 @@ export async function createUserSessionHandler(req: Request, res: Response) {
 }
 
 export async function invalidateUserSessionHandler(req: Request, res: Response) {
-    const sessionId = get(req, "user.session")
-    await updateSession({ _id: sessionId }, { valide: false })
+    const sessionId = get(req, "user._id")
+
+    await updateSession({ _id: sessionId }, { valid: false })
     return res.sendStatus(200)
 }
 
 export async function getUserSessionHandler(req: Request, res: Response) {
-    const userId = get(req, "user._id")
+    const userId = get(req, "user._id");
     const sessions = await findSessions({ user: userId, valid: true })
-
+    log.info(sessions);
     return res.send(sessions)
 }

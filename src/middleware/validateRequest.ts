@@ -16,4 +16,4 @@ const validate = (schema: AnySchema) => async (req: Request, res: Response, next
     }
 }
 
-export default validate
+export default validate;

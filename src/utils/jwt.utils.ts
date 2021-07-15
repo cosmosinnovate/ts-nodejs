@@ -9,7 +9,8 @@ export function sign(object: Object, options?: jwt.SignOptions | undefined) {
 
 export function decode(token: string) {
     try {
-        const decoded = jwt
+        const decoded = jwt.verify(token, privateKey);
+
         return { valid: true, expired: false, decoded };
     } catch (error) {
         return {
@@ -18,5 +19,4 @@ export function decode(token: string) {
             decoded: null,
         };
     }
-
 }
