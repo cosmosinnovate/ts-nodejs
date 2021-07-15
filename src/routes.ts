@@ -13,9 +13,7 @@ export default function (app: Express) {
     app.post("/api/users", validateRequest(createUserSchema), createUserHandler)
     // Login
     // POST /api/session
-    app.post("/api/sessons", validateRequest(createUserSessionSchema), createUserSessionHandler)
-
-
+    app.post("/api/session", validateRequest(createUserSessionSchema), createUserSessionHandler)
     // Get user's session 
     // GET /api/sessions
 

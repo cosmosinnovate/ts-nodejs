@@ -2,7 +2,7 @@ export default {
     host: "localhost",
     dbUri: "mongodb://localhost:27017/api",
     port: 1444,
-    secretSalt: "superSecret",
+    secretSalt: 12,
     accessTokenTtl: "15m",
     refreshTokenTtl: "1y",
     privateKey: `-----BEGIN PRIVATE KEY-----

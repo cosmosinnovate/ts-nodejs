@@ -9,7 +9,7 @@ export async function createUserHandler(req: Request, res: Response) {
         return res.send(omit(user.toJSON(), "password"))
     } catch (error) {
         log.error(error)
-        return res.status(409).send(error.message)  
+        return res.status(409).send({ error: "Email already taken" })
     }
 }
 
